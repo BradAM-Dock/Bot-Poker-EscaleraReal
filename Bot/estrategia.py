@@ -1,21 +1,19 @@
-"""Estrategia de Michi Novato: solo condicionales.
+"""Estrategia de Michi Novato: reglas preflop y equidad Monte Carlo postflop.
 
-Toda la inteligencia del bot esta en este archivo y son if encadenados. No
-hay azar, simulaciones ni aprendizaje: frente a la misma situacion, el bot
-hace siempre lo mismo. Eso lo hace facil de leer y de explotar, que es justo
-lo que se espera de un rival de practica.
+La estrategia preflop usa reglas y despues del flop estima la equidad contra
+manos aleatorias para valorar apuestas y pagos.
 
 decidir() devuelve la accion y un motivo en texto, que se imprime en los logs
 para que puedas seguir lo que piensa el bot mano a mano.
 
 Ideas de poker que usa (todas explicadas donde aparecen):
   - Tabla de manos iniciales: con que dos cartas vale la pena entrar.
-  - Posicion: hablar ultimo es una ventaja.
-  - Cantidad de rivales: una mano buena contra uno es mediocre contra cuatro.
-  - Pot odds y la "regla del 2 y el 4" para pagar proyectos.
+  - Simulaciones Monte Carlo para estimar la fraccion esperada del pozo.
+  - Pot odds y cantidad de rivales al decidir si pagar o apostar.
 """
 
-from cartas import BUENA, MEDIA, MONSTRUO, grupo_preflop, leer_jugada
+from cartas import grupo_preflop
+from equidad import estimar_equidad
 
 
 def decidir(turno):
@@ -67,53 +65,40 @@ def preflop(t):
 # --- Despues del flop -------------------------------------------------------------
 
 def postflop(t):
-    lectura = leer_jugada(t.mano, t.comunitarias)
-    nombre = lectura.nombre
-    muchos_rivales = t.rivales_en_mano >= 3
+    equidad = estimar_equidad(
+        t.mano,
+        t.comunitarias,
+        t.rivales_en_mano,
+        timeout_ms=t.timeout_ms,
+    )
+    rivales = t.rivales_en_mano
 
-    if lectura.nivel == MONSTRUO:
-        if t.por_igualar == 0:
-            return t.apostar_pozo(0.75), f"{nombre}: apuesto 3/4 del pozo"
-        if t.puede("raise"):
-            return t.apostar(t.apuesta_actual * 3), f"{nombre}: resubo"
-        return t.pagar(), f"{nombre}: pago"
+    if t.por_igualar == 0:
+        umbral_apuesta = min(0.82, 0.62 + 0.04 * max(0, rivales - 1))
+        if equidad >= umbral_apuesta and t.puede("bet"):
+            return t.apostar_pozo(0.5), (
+                f"equidad {equidad:.0%} contra {rivales} rival(es): apuesta por valor"
+            )
+        if (t.etapa == "river" and rivales == 1 and t.hablo_ultimo
+                and t.subidas_en_esta_calle == 0):
+            return t.apostar_pozo(0.5), (
+                f"equidad {equidad:.0%}: farol en river tras check del rival"
+            )
+        return t.pasar_o_retirarse(), f"equidad {equidad:.0%}: paso"
 
-    if lectura.nivel == BUENA:
-        if t.por_igualar == 0:
-            if muchos_rivales:
-                # Contra muchos, apostar poco cobra a las manos peores sin
-                # inflar un pozo que puede ganar otro.
-                return t.apostar_pozo(0.33), f"{nombre} (buena) con muchos rivales: apuesto poco"
-            return t.apostar_pozo(0.5), f"{nombre} (buena): apuesto medio pozo"
-        limite = 0.5 if muchos_rivales else 0.75
-        if t.por_igualar <= t.pozo * limite:
-            return t.pagar(), f"{nombre} (buena): pago"
-        return t.pasar_o_retirarse(), f"{nombre} (buena), pero la apuesta es muy grande"
-
-    if lectura.outs > 0:
-        # Regla del 2 y el 4: cada out vale ~4% con dos cartas por venir
-        # (flop) y ~2% con una (turn). Si ese porcentaje supera lo que pone
-        # en juego pagar (pot odds), pagar es rentable a la larga.
-        cartas_por_venir = 5 - len(t.comunitarias)
-        probabilidad = lectura.outs * (4 if cartas_por_venir == 2 else 2)
-        if t.por_igualar == 0:
-            if t.hablo_ultimo and t.rivales_en_mano == 1:
-                return t.apostar_pozo(0.5), f"proyecto de {lectura.proyecto} en posicion: semi-farol"
-            return t.pagar(), f"proyecto de {lectura.proyecto}: paso gratis"
-        if probabilidad >= t.porcentaje_para_pagar:
-            return t.pagar(), f"proyecto de {lectura.proyecto} ({probabilidad}% vs {t.porcentaje_para_pagar:.0f}%): pago"
-        return t.pasar_o_retirarse(), f"proyecto de {lectura.proyecto}: no dan las cuentas"
-
-    if lectura.nivel == MEDIA:
-        if t.por_igualar == 0:
-            return t.pagar(), f"{nombre} (media): paso"
-        if t.por_igualar <= t.pozo / 3 and not muchos_rivales:
-            return t.pagar(), f"{nombre} (media): pago una apuesta chica"
-        return t.pasar_o_retirarse(), f"{nombre} (media): no aguanta la apuesta"
-
-    # No tenemos nada. El unico farol del bot: en el river, si nadie aposto,
-    # quedamos solos contra uno y hablamos ultimos, la mano se gana apostando.
-    if (t.por_igualar == 0 and t.etapa == "river" and t.rivales_en_mano == 1
-            and t.hablo_ultimo and t.subidas_en_esta_calle == 0):
-        return t.apostar_pozo(0.5), "nada, pero el rival paso en el river: farol"
-    return t.pasar_o_retirarse(), "nada: paso o me retiro"
+    margen = 0.04 + min(0.015 * max(0, rivales - 1), 0.06)
+    precio = t.porcentaje_para_pagar / 100
+    if equidad >= precio + margen:
+        umbral_subida = min(0.91, 0.84 + 0.03 * max(0, rivales - 1))
+        if equidad >= umbral_subida and t.puede("raise"):
+            return t.apostar_pozo(0.75), (
+                f"equidad {equidad:.0%} contra {rivales} rival(es): resubo por valor"
+            )
+        return t.pagar(), (
+            f"equidad {equidad:.0%} supera precio {precio:.0%} "
+            f"+ margen {margen:.0%}: pago"
+        )
+    return t.pasar_o_retirarse(), (
+        f"equidad {equidad:.0%} insuficiente para precio {precio:.0%} "
+        f"+ margen {margen:.0%}: me retiro"
+    )

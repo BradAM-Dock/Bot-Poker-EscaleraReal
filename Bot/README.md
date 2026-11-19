@@ -12,7 +12,7 @@ consistente, tu bot todavía no está listo para el torneo.
 | --- | --- |
 | Dificultad | Fácil |
 | Lenguaje | Python 3.8+ (solo librería estándar) |
-| Técnica | Reglas con condicionales, sin azar |
+| Técnica | Reglas preflop y equidad Monte Carlo postflop |
 | Mesas | Heads-up y mesas de 3 a 8 jugadores |
 | Tiempo por jugada | Instantáneo |
 
@@ -83,7 +83,9 @@ No depende de nada de la arena: copia esta carpeta a tu repositorio, cambia
 | `conexion.py` | Socket TCP, saludo y JSON Lines (el protocolo de la arena). | No: cópialo tal cual a tu bot |
 | `turno.py` | Ayudantes: `apostar(total)`, `pagar()`, `por_igualar`, `rivales_en_mano`, `hablo_ultimo`... Nunca devuelven una acción inválida. | Rara vez |
 | `cartas.py` | Lectura de la mano con conteos: categoría de la jugada, si usa tus cartas y cuántos *outs* tienes. | Si quieres leer mejor la mano |
+| `equidad.py` | Simula cartas ocultas, compara manos y estima la equidad. | No |
 | `estrategia.py` | **La estrategia.** `decidir(turno)` devuelve la acción y el motivo. | **Sí: aquí empieza tu bot** |
+| `test_equidad.py` | Pruebas del evaluador y las simulaciones Monte Carlo. | Agrega las tuyas |
 | `test_bot.py` | Pruebas sin mesa ni red. | Agrega las tuyas |
 
 ---
@@ -105,44 +107,30 @@ Las dos cartas se clasifican en cinco grupos con tres preguntas: ¿son pareja?
 
 ### Después del flop
 
-`cartas.py` resume la mano en un **nivel**:
+`equidad.py` completa cada reparto al azar y compara las mejores manos,
+incluyendo desempates. Una victoria cuenta como `1`, una derrota como `0` y
+los empates se reparten entre los jugadores empatados. Usa hasta 500
+simulaciones por decisión y limita el tiempo de cálculo.
 
-- **Monstruo**: trío o mejor armado *con sus cartas* (un trío que está entero en
-  la mesa lo tienen todos, no cuenta). → Apuesta 3/4 del pozo o resube.
-- **Buena**: doble par propio, pareja mayor que la mesa (*overpair*) o pareja con
-  la carta más alta de la mesa (*top pair*). → Apuesta medio pozo (un tercio con
-  3+ rivales) y paga apuestas razonables.
-- **Media**: cualquier otro par. → Pasa y paga solo apuestas chicas.
-- **Proyecto**: le falta una carta para color o escalera. → Paga si las **pot
-  odds** lo justifican (ver abajo). En posición y contra uno, semi-farolea.
-- **Nada**: pasa o se retira. Su único farol: en el river, solo contra uno,
-  hablando último y si nadie apostó.
-
-### La regla del 2 y el 4
-
-Para decidir si pagar un proyecto, el bot cuenta sus **outs** (cartas que lo
-mejoran: 9 para un color, 8 para una escalera abierta, 4 para una interna) y
-estima su probabilidad de ligar:
-
-- con **dos** cartas por venir (flop): outs × 4 %
-- con **una** carta por venir (turn): outs × 2 %
-
-Si esa probabilidad supera lo que pone en juego al pagar
-(`por_igualar / (pozo + por_igualar)`), paga. Si no, se retira.
+Si nadie apostó, apuesta medio pozo cuando la equidad es alta, con un umbral
+mayor contra más rivales. Ante una apuesta, compara la equidad con el precio de
+pagar y añade un margen conservador. Con equidad muy alta puede resubir por
+valor. Por ahora los rivales se simulan con cartas aleatorias: sus rangos no se
+ajustan todavía a sus acciones.
 
 ---
 
 ## Cómo ganarle (y por dónde mejorarlo)
 
-Michi Novato es **predecible a propósito**. Lo que no hace:
+Esta versión ya estima equidad postflop, pero todavía tiene límites:
 
-1. **No varía**: frente a la misma situación hace siempre lo mismo. Un bot que
-   lo observe aprende rápido que cuando apuesta tiene algo.
-2. **No lee al rival**: `estado["historial_acciones"]` y `mano_fin.mostradas`
-   traen todo lo que hicieron los demás, y los ignora.
-3. **Farolea casi nunca**: contra él, retirarse ante sus apuestas es casi
-   siempre correcto, y robarle las ciegas también.
-4. **Pondera mal el kicker**: A-K y K-2 en una mesa con rey son "buena" por igual.
+1. **No lee al rival**: simula cartas aleatorias y no ajusta los rangos según
+   las acciones o las cartas mostradas.
+2. **El preflop sigue siendo una tabla fija** de grupos de manos.
+3. **La estimación tiene ruido** porque usa un número limitado de repartos;
+   las decisiones cerca de un umbral pueden variar entre ejecuciones.
+4. **La estrategia de apuestas aún es básica**: usa umbrales fijos y un farol
+   de river sencillo, no una política equilibrada por situaciones.
 
 Tu bot debería explotar al menos dos de estas cuatro cosas. Y si quieres un rival
 más duro, prueba contra **Gato Darwin**, el bot intermedio en Go, cuya estrategia
