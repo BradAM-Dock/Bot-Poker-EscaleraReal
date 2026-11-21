@@ -1,0 +1,32 @@
+{
+  "torneo": "novato-vs-darwin-200x2-seed-20261119",
+  "unidad": "fichas",
+  "filas": [
+    {
+      "posicion": 1,
+      "id_participante": "novato",
+      "nombre": "Michi Novato",
+      "puntos": 8319,
+      "enfrentamientos_jugados": 2,
+      "enfrentamientos_ganados": 2,
+      "enfrentamientos_perdidos": 0,
+      "enfrentamientos_no_jugados": 0,
+      "fichas_netas": 8319,
+      "timeouts": 0,
+      "manos_jugadas": 400
+    },
+    {
+      "posicion": 2,
+      "id_participante": "darwin",
+      "nombre": "Gato Darwin",
+      "puntos": -8319,
+      "enfrentamientos_jugados": 2,
+      "enfrentamientos_ganados": 0,
+      "enfrentamientos_perdidos": 2,
+      "enfrentamientos_no_jugados": 0,
+      "fichas_netas": -8319,
+      "timeouts": 0,
+      "manos_jugadas": 400
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+#    participante          puntos  jugados  ganados perdidos       fichas  timeouts
+-----------------------------------------------------------------------------------
+1    Bot Base                  50        1        1        0       +23588         0
+2    Gato Bandido              40        1        0        1        +5523         0
+3    Michi Espia               30        1        0        1         +889         0
+4    Michi Novato              20        1        0        1       -10000         0
+5    Bot Estadistico           10        1        0        1       -10000         0
+6    Gato Darwin                0        1        0        1       -10000         0

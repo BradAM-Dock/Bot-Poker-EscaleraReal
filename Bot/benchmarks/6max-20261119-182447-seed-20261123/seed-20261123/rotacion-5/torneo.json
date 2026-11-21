@@ -1,0 +1,79 @@
+{
+  "nombre": "novato-6max-seed-20261123-rotacion-5",
+  "formato": "mesa-unica",
+  "puntuacion": "puestos",
+  "manos_por_enfrentamiento": 50,
+  "ida_y_vuelta": false,
+  "reponer_stack": false,
+  "semilla": 20261123,
+  "paralelismo": 1,
+  "penalizacion_timeout": 0,
+  "mesa": {
+    "ciega_chica": 50,
+    "ciega_grande": 100,
+    "stack": 10000,
+    "timeout_ms": 5000,
+    "espera_jugadores_ms": 15000
+  },
+  "participantes": [
+    {
+      "id": "asiento-0",
+      "nombre": "Michi Espia",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\espia.exe",
+        "-silencioso"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-1",
+      "nombre": "Michi Novato",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\.venv\\Scripts\\python.exe",
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\Bot\\bot.py",
+        "-silencioso"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-2",
+      "nombre": "Gato Darwin",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\darwin.exe",
+        "-silencioso",
+        "-semilla",
+        "20261123"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-3",
+      "nombre": "Bot Base",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\base.exe"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-4",
+      "nombre": "Bot Estadistico",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\estadistico.exe",
+        "-simulaciones",
+        "2000"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-5",
+      "nombre": "Gato Bandido",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\bandido.exe",
+        "-silencioso"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    }
+  ],
+  "salida": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\Bot\\benchmarks\\6max-20261119-182447-seed-20261123\\seed-20261123\\rotacion-5",
+  "guardar_historial": true
+}

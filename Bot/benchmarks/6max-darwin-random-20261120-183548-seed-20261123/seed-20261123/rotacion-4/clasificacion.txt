@@ -1,0 +1,8 @@
+#    participante       puntos  jugados  ganados perdidos       fichas  timeouts
+--------------------------------------------------------------------------------
+1    Aleatorio 4            50        1        1        0       +43400         0
+2    Michi Novato           40        1        0        1        -3400         0
+3    Aleatorio 3            30        1        0        1       -10000         0
+4    Gato Darwin            20        1        0        1       -10000         0
+5    Aleatorio 2            10        1        0        1       -10000         0
+6    Aleatorio 1             0        1        0        1       -10000         0

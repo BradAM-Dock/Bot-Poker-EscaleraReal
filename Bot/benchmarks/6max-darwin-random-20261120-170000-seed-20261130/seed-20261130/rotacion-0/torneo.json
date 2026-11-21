@@ -1,0 +1,83 @@
+{
+  "nombre": "novato-6max-darwin-random-seed-20261130-rotacion-0",
+  "formato": "mesa-unica",
+  "puntuacion": "puestos",
+  "manos_por_enfrentamiento": 50,
+  "ida_y_vuelta": false,
+  "reponer_stack": false,
+  "semilla": 20261130,
+  "paralelismo": 1,
+  "penalizacion_timeout": 0,
+  "mesa": {
+    "ciega_chica": 50,
+    "ciega_grande": 100,
+    "stack": 10000,
+    "timeout_ms": 5000,
+    "espera_jugadores_ms": 15000
+  },
+  "participantes": [
+    {
+      "id": "asiento-0",
+      "nombre": "Michi Novato",
+      "comando": [
+        "C:\\Users\\Joe Portal\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\Bot\\bot.py",
+        "-silencioso"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-1",
+      "nombre": "Gato Darwin",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\darwin.exe",
+        "-silencioso",
+        "-semilla",
+        "20261130"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-2",
+      "nombre": "Aleatorio 1",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\aleatorio.exe",
+        "-semilla",
+        "324178081"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-3",
+      "nombre": "Aleatorio 2",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\aleatorio.exe",
+        "-semilla",
+        "324178082"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-4",
+      "nombre": "Aleatorio 3",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\aleatorio.exe",
+        "-semilla",
+        "324178083"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    },
+    {
+      "id": "asiento-5",
+      "nombre": "Aleatorio 4",
+      "comando": [
+        "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main\\bin\\aleatorio.exe",
+        "-semilla",
+        "324178084"
+      ],
+      "directorio": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\pokerfight-arena-participantes-main"
+    }
+  ],
+  "salida": "D:\\Proyectobot\\Bot-Poker-EscaleraReal\\Bot\\benchmarks\\6max-darwin-random-20261120-170000-seed-20261130\\seed-20261130\\rotacion-0",
+  "guardar_historial": true
+}

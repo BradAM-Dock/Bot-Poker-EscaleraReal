@@ -1,0 +1,4 @@
+#    participante       fichas  jugados  ganados perdidos       fichas  timeouts
+--------------------------------------------------------------------------------
+1    Michi Novato         8319        2        2        0        +8319         0
+2    Gato Darwin         -8319        2        0        2        -8319         0

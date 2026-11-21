@@ -1,0 +1,84 @@
+{
+  "torneo": "novato-6max-darwin-random-seed-20261133-rotacion-1",
+  "unidad": "puntos",
+  "filas": [
+    {
+      "posicion": 1,
+      "id_participante": "asiento-0",
+      "nombre": "Gato Darwin",
+      "puntos": 50,
+      "enfrentamientos_jugados": 1,
+      "enfrentamientos_ganados": 1,
+      "enfrentamientos_perdidos": 0,
+      "enfrentamientos_no_jugados": 0,
+      "fichas_netas": 41798,
+      "timeouts": 0,
+      "manos_jugadas": 50
+    },
+    {
+      "posicion": 2,
+      "id_participante": "asiento-5",
+      "nombre": "Michi Novato",
+      "puntos": 40,
+      "enfrentamientos_jugados": 1,
+      "enfrentamientos_ganados": 0,
+      "enfrentamientos_perdidos": 1,
+      "enfrentamientos_no_jugados": 0,
+      "fichas_netas": -1798,
+      "timeouts": 0,
+      "manos_jugadas": 50
+    },
+    {
+      "posicion": 3,
+      "id_participante": "asiento-3",
+      "nombre": "Aleatorio 3",
+      "puntos": 30,
+      "enfrentamientos_jugados": 1,
+      "enfrentamientos_ganados": 0,
+      "enfrentamientos_perdidos": 1,
+      "enfrentamientos_no_jugados": 0,
+      "fichas_netas": -10000,
+      "timeouts": 0,
+      "manos_jugadas": 4
+    },
+    {
+      "posicion": 4,
+      "id_participante": "asiento-4",
+      "nombre": "Aleatorio 4",
+      "puntos": 20,
+      "enfrentamientos_jugados": 1,
+      "enfrentamientos_ganados": 0,
+      "enfrentamientos_perdidos": 1,
+      "enfrentamientos_no_jugados": 0,
+      "fichas_netas": -10000,
+      "timeouts": 0,
+      "manos_jugadas": 1
+    },
+    {
+      "posicion": 5,
+      "id_participante": "asiento-2",
+      "nombre": "Aleatorio 2",
+      "puntos": 10,
+      "enfrentamientos_jugados": 1,
+      "enfrentamientos_ganados": 0,
+      "enfrentamientos_perdidos": 1,
+      "enfrentamientos_no_jugados": 0,
+      "fichas_netas": -10000,
+      "timeouts": 0,
+      "manos_jugadas": 1
+    },
+    {
+      "posicion": 6,
+      "id_participante": "asiento-1",
+      "nombre": "Aleatorio 1",
+      "puntos": 0,
+      "enfrentamientos_jugados": 1,
+      "enfrentamientos_ganados": 0,
+      "enfrentamientos_perdidos": 1,
+      "enfrentamientos_no_jugados": 0,
+      "fichas_netas": -10000,
+      "timeouts": 0,
+      "manos_jugadas": 1
+    }
+  ]
+}
